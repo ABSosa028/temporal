@@ -1,0 +1,134 @@
+<div style="text-align: center">
+  <h1 style="margin: auto">PyTyCraft</h1>
+  <h3>Grupo 43</h3>
+  <h3>201906572</h3>
+</div>
+<dx-toolbar class="moduleToolbar" [items]="toolbarItems"></dx-toolbar>
+<div class="default">
+  <dx-tab-panel
+    [dataSource]="template"
+    [selectedIndex]="0"
+    [loop]="false"
+    [animationEnabled]="true"
+    [swipeEnabled]="false"
+    (onSelectionChanged)="selectTab($event)"
+  >
+    <div *dxTemplate="let element of 'title'">
+      <span>{{ element.name }}</span>
+    </div>
+    <div class="contenedorConsolas" *dxTemplate="let element of 'item'">
+      <ngx-codemirror
+        class="alinear"
+        [(ngModel)]="element.content"
+        [options]="{
+          theme: 'material',
+          mode: 'julia',
+          lineNumbers: true,
+          styleActiveLine: true,
+          lineWrapping: true,
+          columnNumbers: true,
+          foldGutter: true,
+          gutter: true,
+          gutters: [
+            'CodeMirror-linenumbers',
+            'CodeMirror-foldgutter',
+            'CodeMirror-lint-markers'
+          ],
+          autoCloseBrackets: true,
+          autocapitalize: true,
+          matchBrackets: true
+        }"
+      >
+      </ngx-codemirror>
+      <ngx-codemirror
+        class="alinear"
+        [(ngModel)]="salida"
+        [options]="{
+          readOnly: false,
+          theme: 'material',
+          mode: 'julia',
+          lineNumbers: true,
+          styleActiveLine: true,
+          lineWrapping: true,
+          columnNumbers: true,
+          foldGutter: true,
+          gutter: true,
+          gutters: [
+            'CodeMirror-linenumbers',
+            'CodeMirror-foldgutter',
+            'CodeMirror-lint-markers'
+          ],
+          autoCloseBrackets: true,
+          autocapitalize: true,
+          matchBrackets: true
+        }"
+      >
+      </ngx-codemirror>
+    </div>
+  </dx-tab-panel>
+
+  
+  <div style="text-align: center">
+    <button (click)="optimizar()" class="button">Optimizar</button>
+    <button (click)="graficarTablaSimbolos()" class="buttonTabla">
+      Graficar Tabla Simbolos
+    </button>
+    <label class="buttonSubir" for="upload"> Subir</label>
+    <input
+      class="buttonSubir"
+      type="file"
+      #tySubida
+      id="upload"
+      name="tySubida"
+      style="display: none"
+      (change)="upload($event)"
+    />
+  </div>
+
+  
+  <div style="text-align: center">
+    <div id="graphTable"></div>
+  </div>
+
+  <div class="contenedorConsolas">
+    <div class="alinear">
+      <h2 class="tituloConsola" align="center">Salida optimizada</h2>
+      <ngx-codemirror
+        [(ngModel)]="optimizado"
+        [options]="{
+          readOnly: false,
+          theme: 'material',
+          mode: 'julia',
+          lineNumbers: true,
+          styleActiveLine: true,
+          lineWrapping: true,
+          columnNumbers: true,
+          foldGutter: true,
+          gutter: true,
+          gutters: [
+            'CodeMirror-linenumbers',
+            'CodeMirror-foldgutter',
+            'CodeMirror-lint-markers'
+          ],
+          autoCloseBrackets: true,
+          autocapitalize: true,
+          matchBrackets: true
+        }"
+      >
+      </ngx-codemirror>
+    </div>
+    <div class="alinear" style="text-align: center">
+      <button (click)="graficarErrores()" class="buttonErrores">
+        Reporte optimizaci
+      </button>
+    </div>
+  </div>
+
+  <dx-data-grid [dataSource]="data" keyExpr="id" *ngIf="mostrar_errores" [showColumnLines]="true">
+    <dxi-column caption="Tipo" dataField="tipo"> </dxi-column>
+    <dxi-column caption="Regla" dataField="regla"> </dxi-column>
+    <dxi-column caption="Original" dataField="original" [width]="300"> </dxi-column>
+    <dxi-column caption="Optimizado" dataField="optimizado" [width]="300"> </dxi-column>
+    <dxi-column caption="Linea" dataField="linea"></dxi-column>
+  </dx-data-grid>
+</div>
